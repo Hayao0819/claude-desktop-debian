@@ -132,6 +132,16 @@ Module.prototype.require = function(id) {
               this.webContents.insertCSS(LINUX_CSS).catch(() => {});
             });
 
+            // Close frameless popup windows (About, Quick Entry) on Escape
+            if (popup) {
+              this.webContents.on('before-input-event', (event, input) => {
+                if (input.type !== 'keyDown') return;
+                if (input.key !== 'Escape') return;
+                event.preventDefault();
+                this.close();
+              });
+            }
+
             // Quit on Ctrl+Q, but only when Claude has keyboard focus.
             // Replaces a prior globalShortcut registration that grabbed
             // the key system-wide and, on non-QWERTY layouts (e.g.
