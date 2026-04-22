@@ -39,14 +39,14 @@ if (resolvedMode !== rawMenuBarMode) {
 console.log(`[Frame Fix] Menu bar mode: ${MENU_BAR_MODE}`);
 
 // Detect if a window intends to be frameless (popup/Quick Entry/About)
-// Quick Entry: titleBarStyle:"", skipTaskbar:true, transparent:true, resizable:false
-// About:       titleBarStyle:"", skipTaskbar:true, resizable:false
-// Main:        titleBarStyle:"", titleBarOverlay:false(linux), resizable (has minWidth)
+// Quick Entry: titleBarStyle:"",            skipTaskbar:true, transparent:true, resizable:false
+// About:       titleBarStyle:"hiddenInset", skipTaskbar:true, resizable:false
+// Main:        titleBarStyle:"",            titleBarOverlay:false(linux), resizable (has minWidth)
 // The main window has minWidth set; popups do not.
 function isPopupWindow(options) {
   if (!options) return false;
   if (options.frame === false) return true;
-  if (options.titleBarStyle === '' && !options.minWidth) return true;
+  if ((options.titleBarStyle === '' || options.titleBarStyle === 'hiddenInset') && !options.minWidth) return true;
   return false;
 }
 
